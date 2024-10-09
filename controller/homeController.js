@@ -42,7 +42,7 @@ module.exports = {
       
             const Hotel = await Category.find({categoryName: "Hotel"}) // mencari data category item hotel dari database Category
             const Event = await Category.find({categoryName: "Event"}) // mencari data category item event dari database Category
-            const Tour = await Category.find({categoryName: "Tour"}) // mencari data category item tour dari database Category
+            const Tour = await Category.find({categoryName: "Tour Package"}) // mencari data category item tour dari database Category
             
             const SumHotel = Hotel.reduce((count,curent)=>count+curent.item.length,0) //menghitung jumlah item hotel dengan menggunakan reduce untuk menghitung panjang data {array}
             const SumEvent = Event.reduce((count,curent)=>count+curent.item.length,0) //menghitung jumlah item event dengan menggunakan reduce untuk menghitung panjang data {array}
