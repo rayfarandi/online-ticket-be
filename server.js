@@ -22,6 +22,7 @@ const customerRouter = require("./router/customerRouter");
 const bookingRouter = require("./router/bookingRouter");
 const userRouter = require("./router/userRouter");
 const dashboardRouter = require("./router/dashboardRouter")
+const homeRouter = require("./router/homeRouter");
 
 // connect to DB
 connectDB();
@@ -63,6 +64,9 @@ app.use("/api/customer", customerRouter); //routing on customer
 app.use("/api/booking", bookingRouter); //routing on booking
 app.use("/api/user", userRouter); //routing on user
 app.use("/api/dashboard", dashboardRouter); //routing on dashboard
+
+// client
+app.use("/api/client", homeRouter); //routing on home
 
 const port = process.env.PORT;
 
