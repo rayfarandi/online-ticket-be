@@ -21,7 +21,7 @@ module.exports = {
         accountHolder,
       } = req.body;
 
-      console.log(req.body); //for testing
+      //console.log(req.body); //for testing
       if (!req.file) {
         // error handling jika lupa upload data bukti transfer
         return res.status(400).json({ message: "not found image" });
@@ -158,9 +158,7 @@ module.exports = {
       booking.payments.status = "Reject"; //mengubah status booking menjadi reject
       //
 
-      //sementara di matikan feature nya
-      //booking.proofBy = req.user._id; //mengambil id user yang melakukan reject booking {admin}
-
+      booking.proofBy = req.user._id; //mengambil id user yang melakukan reject booking {admin}
       await booking.save(); //update data
       res.status(200).json(booking); //mengecek booking
     } catch (err) {
@@ -200,7 +198,7 @@ module.exports = {
 
       booking.payments.status = "Accept"; //mengubah status booking menjadi Accept
       item.sumBooked += parseInt(booked); // menambahkan jumlah booking/booked pada item
-      //booking.proofBy = req.user._id; // nonactive dulu sementara feature ini
+      booking.proofBy = req.user._id; // mengambil id user yang melakukan accept booking {admin}
       await item.save(); //update data
       await booking.save(); //update data
       res.status(200).json(booking); //mengecek booking

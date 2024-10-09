@@ -55,7 +55,7 @@ module.exports = {
   },
 
   updateUser: async (req, res) => {
-    console.log(req.body); //for testing
+    //console.log(req.body); //for testing
 
     const updates = Object.keys(req.body); //mengambil semua data yang di update
     const allowedUpdates = [
@@ -138,12 +138,12 @@ module.exports = {
     //logout single device
     try {
       req.user.tokens = req.user.tokens.filter(
-        //menghilangkan token
-        (token) => token.token !== req.token
+        //menghilangkan token dari user
+        (token) => token.token !== req.user.token
       );
-      
+
       await req.user.save();
-      res.status(200).json({ message: "Logout Success"});
+      res.status(200).json({ message: "Logout Success" });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
@@ -158,5 +158,10 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
+  },
+
+  //menampilkan user yg sedang login
+  viewMe: async (req, res) => {
+    res.send(req.user);
   },
 };

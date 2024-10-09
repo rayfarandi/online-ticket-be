@@ -1,16 +1,35 @@
-const express = require("express")
-const bookingController = require("../controller/bookingController")
-const { uploadMultiple, uploadSingle } = require("../middleware/multer")
-const router = express.Router()
+const express = require("express");
+const bookingController = require("../controller/bookingController");
+const { uploadSingle } = require("../middleware/multer");
 
-router.post("/create", uploadSingle, bookingController.createBooking)
-router.get("/read", bookingController.viewBooking);
-router.get("/read/:id", bookingController.showDetailBooking);
+// function  authentication {router}
+const auth = require("../middleware/auth");
+const checkRole = require("../middleware/checkRole");
 
-router.put("/reject/:id", bookingController.actionReject) //bisa mengunakan put atau patch
-router.put("/accept/:id", bookingController.actionAccept) //bisa mengunakan put atau patch
+const router = express.Router();
 
+router.post("/create", uploadSingle, bookingController.createBooking);
+router.get("/read", auth, bookingController.viewBooking);
+router.get("/read/:id", auth, bookingController.showDetailBooking);
 
-router.delete("/delete/:id", bookingController.deleteBooking)
+router.put(
+  "/reject/:id",
+  auth,
+  checkRole("admin"),
+  bookingController.actionReject
+); //bisa mengunakan put atau patch
+router.put(
+  "/accept/:id",
+  auth,
+  checkRole("admin"),
+  bookingController.actionAccept
+); //bisa mengunakan put atau patch
 
-module.exports = router
+router.delete(
+  "/delete/:id",
+  auth,
+  checkRole("admin"),
+  bookingController.deleteBooking
+);
+
+module.exports = router;
