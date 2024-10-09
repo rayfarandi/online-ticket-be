@@ -1,6 +1,7 @@
 const Item = require("../models/Item");
 const Category = require("../models/Category");
 const Info = require("../models/Info");
+const Bank = require("../models/Bank");
 
 module.exports = {
     homePage: async (req, res) => {
@@ -61,6 +62,26 @@ module.exports = {
             })
         } catch (err) { //error handling
           res.status(500).json({ message: err.message });
+        }
+      },
+
+      detailPage: async (req, res)=>{
+        try {
+          const {id} = req.params;
+          const item = await Item.findOne({_id: id}) // menampilkan semua data, filter berdasarkan id dari key parameter
+            .populate({ path: "category", select: " id categoryName" }) //populate digunakan untuk relasi data atau join jika di sql, mengambil dari data model items yg sudah di relasi ke model category
+            .populate({ path: "image", select: "id imageUrl" }) //populate digunakan untuk relasi data atau join jika di sql
+            .populate({ path: "info", match : {type: {$in: ["NearBy", "Testimony"]}} }) //populate digunakan untuk relasi data atau join jika di sql, menarik data dari model info dan filter untuk testimony dan Nearby
+            .populate({ path: "feature"}); //populate digunakan untuk relasi data atau join jika di sql, menarik data dari model feature
+    
+          const bank = await Bank.find(); // menampilkan semua data
+
+          res.status(200).json({
+            ...item._doc, // menampilkan semua data, dalam bentuk string {agar tidak di kirim dengan bentuk object, karena nested array terlalu banyak}
+            bank // menampilkan semua data, dalam bentuk object{karena data tidak nested}
+          });
+        } catch (error) { //error handling
+          res.status(500).json({ message: error.message });
         }
       },
 }
