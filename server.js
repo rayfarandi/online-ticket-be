@@ -75,6 +75,12 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.listen(port, () => {
-  console.log(`server running on http://localhost:${port}`);
-});
+//for varcel
+
+module.exports = app; 
+// for varcel
+
+// untuk localhost {hidupkan kembali jika di perlukan}
+// app.listen(port, () => {
+//   console.log(`server running on http://localhost:${port}`);
+// });
