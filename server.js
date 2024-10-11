@@ -68,7 +68,8 @@ app.use("/api/dashboard", dashboardRouter); //routing on dashboard
 // client
 app.use("/api/client", homeRouter); //routing on home
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");
